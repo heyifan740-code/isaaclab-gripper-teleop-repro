@@ -17,7 +17,7 @@ Recommended demo content:
 
 ---
 
-## What This Package Contains
+## This Package Contains
 
 This repo provides a reproducible gripper teleoperation workflow for Isaac Sim / Isaac Lab.
 
