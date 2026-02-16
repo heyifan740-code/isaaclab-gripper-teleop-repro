@@ -1,98 +1,131 @@
-# Gripper Teleop 提交与 Isaac Sim 复现指南
+# Isaac Sim Gripper Teleop Reproduction Guide
 
-本指南用于把“夹爪 teleop 功能”作为**可复现提交包**发布到新的 GitHub 仓库，确保他人可在 Isaac Sim/IsaacLab 环境中复现并验证。
+## Demo (Placeholder)
 
-## 1. 提交内容范围（相关代码）
+> Add your demo here (video/GIF/screen recording):  
+> **[DEMO_LINK_HERE]**
 
-建议至少包含以下路径（与功能直接相关）：
+Recommended demo content:
+1. Close gripper (`J`) and grasp the cube
+2. Move base to another location
+3. Open gripper (`K`) and release the cube
+4. Show terminal logs:
+   - `[gripper] mode -> close (J)`
+   - `[gripper] mode -> open (K)`
+   - `[gripper] apply material set: ...`
 
+---
+
+## What This Package Contains
+
+This repo provides a reproducible gripper teleoperation workflow for Isaac Sim / Isaac Lab.
+
+Main files:
 - `scripts/teleop_gripper.py`
 - `source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/gripper_teleop/`
-  - `__init__.py`
-  - `gripper_env_cfg.py`
-  - `mdp/__init__.py`
-  - `mdp/actions.py`
-  - `mdp/observations.py`
-- 运行所需 gripper 资源（如已在本仓库维护）
-  - `assets/gripper/`
-
-## 2. 推荐发布方式（最稳）
-
-推荐做法是创建一个**轻量 overlay 仓库**（只放相关代码），而不是上传整个 IsaacLab 大仓库。这样更清晰、可复现也更快。
+- `assets/gripper/`
 
 ---
 
-## 3. 创建发布目录（本机）
+## 1) Prerequisites
 
-在终端执行：
+You need a working Isaac Lab + Isaac Sim setup (Linux recommended), and this package cloned locally.
 
-```bash
-mkdir -p ~/gripper-teleop-release
-cd ~/gripper-teleop-release
-mkdir -p scripts
-mkdir -p source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation
-mkdir -p assets
-```
-
-复制相关代码：
-
-```bash
-cp /home/fan/workspace/IsaacLab/scripts/teleop_gripper.py scripts/
-cp -r /home/fan/workspace/IsaacLab/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/gripper_teleop source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/
-cp -r /home/fan/workspace/IsaacLab/assets/gripper assets/
-cp /home/fan/workspace/IsaacLab/SUBMISSION_GRIPPER_TELEOP_REPRO.md README.md
-```
-
-> 如果你的 `assets/gripper` 不在本地，请把资源路径改成实际位置。
+- Isaac Lab installed and runnable
+- Compatible Isaac Sim version (same family as your Isaac Lab setup)
+- Python environment activated (if your setup requires it)
 
 ---
 
-## 4. 新建 GitHub 仓库并推送
+## 2) Integrate This Package into an Existing Isaac Lab Workspace
 
-当前环境未检测到 `gh` CLI，因此使用 Web + git 命令方式。
+Assume:
+- Your Isaac Lab workspace is at: `~/IsaacLab`
+- This repository is cloned at: `~/isaaclab-gripper-teleop-repro`
 
-### 4.1 在 GitHub 网页创建新仓库
-
-- 打开：`https://github.com/new`
-- 仓库名建议：`isaaclab-gripper-teleop-repro`
-- 选择 `Public` 或 `Private`
-- **不要**勾选初始化 README（避免冲突）
-
-### 4.2 本地初始化并推送
-
-把 `<YOUR_GITHUB_NAME>` 替换为你的用户名：
-
-```bash
-cd ~/gripper-teleop-release
-git init
-git add .
-git commit -m "feat: add gripper teleop reproducible package"
-git branch -M main
-git remote add origin https://github.com/<YOUR_GITHUB_NAME>/isaaclab-gripper-teleop-repro.git
-git push -u origin main
-```
-
----
-
-## 5. 他人复现流程（Isaac Sim / IsaacLab）
-
-### 5.1 准备基础 IsaacLab
-
-先按官方方式安装 IsaacLab（与目标 Isaac Sim 版本匹配，推荐 Isaac Sim 5.1）。
-
-### 5.2 叠加你的提交包
-
-假设他人已经有 IsaacLab 工作目录：`~/IsaacLab`，执行：
+Run:
 
 ```bash
 cd ~
-git clone https://github.com/<YOUR_GITHUB_NAME>/isaaclab-gripper-teleop-repro.git
 rsync -av isaaclab-gripper-teleop-repro/scripts/ ~/IsaacLab/scripts/
 rsync -av isaaclab-gripper-teleop-repro/source/ ~/IsaacLab/source/
 rsync -av isaaclab-gripper-teleop-repro/assets/ ~/IsaacLab/assets/
 ```
 
-### 5.3 运行验证
+### Command explanation
+- `rsync -av ...`: copies files/folders while preserving structure and showing progress.
+- This overlays only the relevant teleop/task/assets into your Isaac Lab workspace.
+
+---
+
+## 3) Launch the Teleop Script
+
+```bash
+cd ~/IsaacLab
+./isaaclab.sh -p scripts/teleop_gripper.py
+```
+
+### Command explanation
+- `./isaaclab.sh`: Isaac Lab launcher script.
+- `-p scripts/teleop_gripper.py`: runs the teleoperation Python entry script with Isaac runtime.
+
+---
+
+## 4) Runtime Controls (Keyboard)
+
+- Base translation: `W/S`, `A/D`, `Q/E`
+- Base rotation: `Z/X`, `T/G`, `C/V`
+- Gripper close: `J`
+- Gripper open: `K`
+
+---
+
+## 5) Reproduction Test Procedure (Step-by-Step)
+
+Follow exactly:
+
+1. Start simulation and wait until scene is stable.
+2. Move gripper above the cube.
+3. Press `J` to close and grasp.
+4. Move the base to another location while holding the cube.
+5. Press `K` to open and release.
+6. Confirm the cube drops/gets released.
+7. Repeat grasp/release 3 times to confirm consistency.
+
+---
+
+## 6) Expected Validation Signals
+
+### Functional validation
+- `J` consistently closes gripper.
+- `K` consistently opens gripper.
+- Cube can be released after grasp (not only in no-load condition).
+
+### Console/log validation
+Look for mode-switch logs:
+- `[gripper] mode -> close (J)`
+- `[gripper] mode -> open (K)`
+- `[gripper] apply material set: close/open`
+
+---
+
+## 7) Quick Troubleshooting
+
+### Symptom: Keys do not respond
+- Ensure Isaac Sim window is focused.
+- Click inside viewport, then retry keys.
+
+### Symptom: Can grasp but hard to release
+- Verify `K` press logs appear in terminal.
+- Verify `apply material set: open` appears after `K`.
+
+### Symptom: Script launch issues
+- Re-check file overlay paths (`scripts/`, `source/`, `assets/`).
+- Re-run from Isaac Lab root using `./isaaclab.sh -p ...`.
+
+---
+
+## 8) Minimal Re-run Commands
 
 ```bash
 cd ~/IsaacLab
@@ -101,47 +134,13 @@ cd ~/IsaacLab
 
 ---
 
-## 6. 功能验证清单（复现验收）
+## 9) Reproducibility Metadata (Fill Before Review)
 
-运行后按以下步骤验证：
-
-1. 使用 `J` 夹爪闭合，夹起 `cube`
-2. 移动 base 到新位置
-3. 使用 `K` 夹爪张开，释放 `cube`
-4. 终端日志可见模式切换信息：
-   - `[gripper] mode -> close (J)`
-   - `[gripper] mode -> open (K)`
-   - `[gripper] apply material set: ...`
-
-判定标准：
-
-- 空载时 `J/K` 可切换开合
-- 夹住 `cube` 后仍可通过 `K` 张开并释放
-
----
-
-## 7. 建议附加信息（提高可信度）
-
-建议在仓库 `README` 补充：
-
-- OS / GPU / 驱动版本
-- Isaac Sim 版本
-- IsaacLab 分支或 commit
-- 你验证成功的最小命令
-- 一段 10~20 秒演示视频（抓取 -> 移动 -> 释放）
-
----
-
-## 8. 常见问题排查
-
-- 按键无响应：确认窗口焦点在 Isaac Sim 主窗口
-- 释放不明显：确认运行日志出现 `mode -> open (K)` 与 `apply material set: open`
-- 资源缺失：确认 `assets/gripper` 已同步
-
----
-
-如果你希望，我可以继续帮你生成：
-
-1. 一个更简短的仓库 `README.md`（面向评审）
-2. 一个 `reproduce.sh` 一键复现脚本（自动 rsync + 运行命令）
-3. 一份提交前检查清单（环境、命令、预期输出）
+- OS:
+- GPU:
+- Driver Version:
+- Isaac Sim Version:
+- Isaac Lab Branch/Commit:
+- This Repo Commit:
+- Test Result: PASS / FAIL
+- Demo Link:
