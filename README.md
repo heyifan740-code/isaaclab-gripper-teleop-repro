@@ -1,13 +1,14 @@
 # Isaac Sim Gripper Teleop Reproduction Guide
 
-## Demo (Placeholder)
+## Demo
 
-> Add your demo here (video/GIF/screen recording):  
-> **[DEMO_LINK_HERE]**
+<video src="media/demo.mp4" controls width="900"></video>
+
+If the embedded player does not load, [https://drive.google.com/file/d/1CayQsx1-aXp-lal_XPI19Do_JIKh9EzZ/view?usp=sharing](media/demo.mp4).
 
 Recommended demo content:
 1. Close gripper (`J`) and grasp the cube
-2. Move base to another location
+2. Move base to another location : a.Base translation: `W/S`, `A/D`, `Q/E` b. Base rotation: `Z/X`, `T/G`, `C/V`
 3. Open gripper (`K`) and release the cube
 4. Show terminal logs:
    - `[gripper] mode -> close (J)`
@@ -29,7 +30,7 @@ Main files:
 
 ## 1) Prerequisites
 
-You need a working Isaac Lab + Isaac Sim setup (Linux recommended), and this package cloned locally.
+need a working Isaac Lab + Isaac Sim setup (Linux recommended), and this package cloned locally.
 
 - Isaac Lab installed and runnable
 - Compatible Isaac Sim version (same family as your Isaac Lab setup)
