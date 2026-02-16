@@ -2,9 +2,9 @@
 
 ## Demo
 
-<video src="media/demo.mp4" controls width="900"></video>
+<video src="demo.mp4" controls width="900"></video>
 
-If the embedded player does not load, [https://drive.google.com/file/d/1CayQsx1-aXp-lal_XPI19Do_JIKh9EzZ/view?usp=sharing](media/demo.mp4).
+If the embedded player does not load, [https://drive.google.com/file/d/1CayQsx1-aXp-lal_XPI19Do_JIKh9EzZ/view?usp=sharing].
 
 Recommended demo content:
 1. Close gripper (`J`) and grasp the cube
