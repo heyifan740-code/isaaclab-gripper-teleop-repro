@@ -135,13 +135,3 @@ cd ~/IsaacLab
 
 ---
 
-## 9) Reproducibility Metadata (Fill Before Review)
-
-- OS:
-- GPU:
-- Driver Version:
-- Isaac Sim Version:
-- Isaac Lab Branch/Commit:
-- This Repo Commit:
-- Test Result: PASS / FAIL
-- Demo Link:
