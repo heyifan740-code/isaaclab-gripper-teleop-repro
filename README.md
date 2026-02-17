@@ -66,9 +66,6 @@ cd ~/IsaacLab
 ./isaaclab.sh -p scripts/teleop_gripper.py
 ```
 
-### Command explanation
-- `./isaaclab.sh`: Isaac Lab launcher script.
-- `-p scripts/teleop_gripper.py`: runs the teleoperation Python entry script with Isaac runtime.
 
 ---
 
@@ -100,7 +97,6 @@ Follow exactly:
 ### Functional validation
 - `J` consistently closes gripper.
 - `K` consistently opens gripper.
-- Cube can be released after grasp (not only in no-load condition).
 
 ### Console/log validation
 Look for mode-switch logs:
