@@ -88,7 +88,6 @@ Follow exactly:
 4. Move the base to another location while holding the cube.
 5. Press `K` to open and release.
 6. Confirm the cube drops/gets released.
-7. Repeat grasp/release 3 times to confirm consistency.
 
 ---
 
