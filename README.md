@@ -41,3 +41,78 @@ cd ~
 rsync -av isaaclab-gripper-teleop-repro/scripts/ ~/IsaacLab/scripts/
 rsync -av isaaclab-gripper-teleop-repro/source/ ~/IsaacLab/source/
 rsync -av isaaclab-gripper-teleop-repro/assets/ ~/IsaacLab/assets/
+```
+
+### Command explanation
+- `rsync -av ...`: copies files/folders while preserving structure and showing progress.
+- This overlays only the relevant teleop/task/assets into your Isaac Lab workspace.
+
+---
+
+## 3) Launch the Teleop Script
+
+```bash
+cd ~/IsaacLab
+./isaaclab.sh -p scripts/teleop_gripper.py
+```
+
+---
+
+## 4) Runtime Controls (Keyboard)
+
+- Base translation: `W/S`, `A/D`, `Q/E`
+- Base rotation: `Z/X`, `T/G`, `C/V`
+- Gripper close: `J`
+- Gripper open: `K`
+
+---
+
+## 5) Reproduction Test Procedure (Step-by-Step)
+
+Follow exactly:
+
+1. Start simulation and wait until scene is stable.
+2. Move gripper above the cube.
+3. Press `J` to close and grasp.
+4. Move the base to another location while holding the cube.
+5. Press `K` to open and release.
+6. Confirm the cube drops/gets released.
+
+---
+
+## 6) Expected Validation Signals
+
+### Functional validation
+- `J` consistently closes gripper.
+- `K` consistently opens gripper.
+
+### Console/log validation
+Look for mode-switch logs:
+- `[gripper] mode -> close (J)`
+- `[gripper] mode -> open (K)`
+- `[gripper] apply material set: close/open`
+
+---
+
+## 7) Quick Troubleshooting
+
+### Symptom: Keys do not respond
+- Ensure Isaac Sim window is focused.
+- Click inside viewport, then retry keys.
+
+### Symptom: Can grasp but hard to release
+- Verify `K` press logs appear in terminal.
+- Verify `apply material set: open` appears after `K`.
+
+### Symptom: Script launch issues
+- Re-check file overlay paths (`scripts/`, `source/`, `assets/`).
+- Re-run from Isaac Lab root using `./isaaclab.sh -p ...`.
+
+---
+
+## 8) Minimal Re-run Commands
+
+```bash
+cd ~/IsaacLab
+./isaaclab.sh -p scripts/teleop_gripper.py
+```
